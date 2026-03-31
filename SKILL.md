@@ -14,8 +14,6 @@ metadata:
   openclaw:
     requires:
       bins: [node]
-      env: [A2UI_R2_BUCKET]
-    primaryEnv: A2UI_R2_BUCKET
 ---
 
 # Research Visualizer

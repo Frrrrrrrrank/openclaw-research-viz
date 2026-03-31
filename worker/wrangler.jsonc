@@ -1,0 +1,12 @@
+{
+  "name": "openclaw-research-viz",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-03-31",
+  "account_id": "864e270ac5f0b537bcacb8dbb4b8a217",
+  "r2_buckets": [
+    {
+      "binding": "BUCKET",
+      "bucket_name": "a2ui-reports"
+    }
+  ]
+}

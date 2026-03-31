@@ -173,6 +173,40 @@ async function uploadViaAPI(content, slug) {
   });
 }
 
+// --- Upload via public API (zero-config) ---
+const PUBLIC_API_URL = 'https://openclaw-research-viz.fcyaoquan.workers.dev/api/upload';
+
+async function uploadViaPublicAPI(content, slug) {
+  const body = JSON.stringify({ html: content, slug });
+  const url = new URL(PUBLIC_API_URL);
+  const mod = url.protocol === 'https:' ? https : http;
+
+  return new Promise((resolve, reject) => {
+    const req = mod.request({
+      hostname: url.hostname, port: url.port, path: url.pathname,
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(body),
+      },
+    }, (res) => {
+      let data = '';
+      res.on('data', c => data += c);
+      res.on('end', () => {
+        if (res.statusCode >= 200 && res.statusCode < 300) {
+          try { resolve(JSON.parse(data).url); }
+          catch { resolve(`https://r.a2ui.me/r/${slug}.html`); }
+        } else {
+          reject(new Error(`HTTP ${res.statusCode}: ${data}`));
+        }
+      });
+    });
+    req.on('error', reject);
+    req.write(body);
+    req.end();
+  });
+}
+
 // --- Local fallback ---
 function saveLocally(content, slug) {
   const outDir = path.resolve(__dirname, '..', 'output');
@@ -208,13 +242,21 @@ async function main() {
   let baseUrl;
 
   if (process.env.A2UI_R2_BUCKET) {
+    // Priority 1: Direct R2 upload (for skill author/admin)
     baseUrl = await uploadViaR2(uploadContent, slug);
   } else if (process.env.A2UI_API_KEY) {
+    // Priority 2: Authenticated API upload
     baseUrl = await uploadViaAPI(uploadContent, slug);
   } else {
-    const localPath = saveLocally(uploadContent, slug);
-    baseUrl = `file://${localPath}`;
-    console.error(`No upload credentials. Saved locally: ${localPath}`);
+    // Priority 3: Public API (zero-config, works for everyone)
+    try {
+      baseUrl = await uploadViaPublicAPI(uploadContent, slug);
+    } catch (err) {
+      // Fallback: save locally
+      const localPath = saveLocally(uploadContent, slug);
+      baseUrl = `file://${localPath}`;
+      console.error(`Upload failed (${err.message}). Saved locally: ${localPath}`);
+    }
   }
 
   // Append key fragment if encrypted
