@@ -567,11 +567,11 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sa
   .section { margin-bottom: 24px; }
   .section-title { font-size: 11px; letter-spacing: 1px; margin-bottom: 12px; }
 
-  /* Timeline - more compact */
-  .timeline::before { left: 12px; }
-  .step { padding-left: 36px; padding-bottom: 16px; }
-  .step-dot { left: 4px; width: 16px; height: 16px; }
-  .step-dot .inner { width: 6px; height: 6px; }
+  /* Timeline - hide line on mobile, use top-border instead */
+  .timeline::before { display: none; }
+  .step { padding-left: 0; padding-bottom: 12px; }
+  .step-dot { display: none; }
+  .step-card { border-left: 3px solid var(--green); }
   .step-card { padding: 10px 12px; }
   .step-header { flex-direction: column; align-items: flex-start; gap: 4px; margin-bottom: 6px; }
   .step-tool { font-size: 10px; padding: 2px 8px; }
@@ -650,10 +650,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sa
   .stat-value { font-size: 14px; }
   .stat-label { font-size: 9px; }
   .stat-change { font-size: 9px; }
-  .step { padding-left: 32px; }
-  .timeline::before { left: 10px; }
-  .step-dot { left: 2px; width: 14px; height: 14px; }
-  .step-dot .inner { width: 5px; height: 5px; }
+  .step { padding-left: 0; }
   .step-summary { font-size: 11px; }
   .news-title { font-size: 11px; }
   .kp-text { font-size: 10px; }

@@ -77,7 +77,8 @@ function generateViewerHTML(ciphertextB64, ivB64, authTagB64, title) {
 <meta name="robots" content="noindex, nofollow">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:#0a0a0f;color:#e0e0e8;min-height:100vh;display:flex;align-items:center;justify-content:center}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:#0a0a0f;color:#e0e0e8;min-height:100vh}
+#_v{display:flex;align-items:center;justify-content:center;min-height:100vh}
 .loader{text-align:center;padding:40px}
 .loader h2{font-size:18px;margin-bottom:12px}
 .loader p{color:#8888a0;font-size:14px;margin-top:8px}
@@ -88,10 +89,12 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-seri
 </style>
 </head>
 <body>
+<div id="_v">
 <div class="loader" id="status">
 <div class="spinner"></div>
 <h2>Decrypting Report...</h2>
 <p>Your data never leaves your browser</p>
+</div>
 </div>
 <script>
 (async function(){
