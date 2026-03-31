@@ -14,8 +14,8 @@ metadata:
   openclaw:
     requires:
       bins: [node]
-      env: [A2UI_API_KEY]
-    primaryEnv: A2UI_API_KEY
+      env: [A2UI_R2_BUCKET]
+    primaryEnv: A2UI_R2_BUCKET
 ---
 
 # Research Visualizer
@@ -58,7 +58,7 @@ From the conversation, extract a structured JSON with this schema:
   ],
   "visualizations": [
     {
-      "type": "line_chart | market_cards | world_map | news_cards",
+      "type": "line_chart | bar_chart | market_cards | world_map | news_cards | stat_cards | comparison_table | quote_block | key_points",
       "section_title": "Section heading",
       "data": {}
     }
@@ -66,31 +66,79 @@ From the conversation, extract a structured JSON with this schema:
 }
 ```
 
-### Step 2: Choose Visualizations
+### Step 2: Choose Visualizations Dynamically
 
-Based on the research content, include relevant visualization types:
+**IMPORTANT: Do NOT use a fixed template. Analyze the research content and pick only the visualizations that make sense.** Use this decision guide:
 
-- **line_chart**: For time-series data, trends, probability changes
+| Research involves... | Use these visualizations |
+|---|---|
+| Time-series data, trends, probabilities | `line_chart` or `bar_chart` |
+| Prediction markets, odds, pricing | `market_cards` |
+| Geopolitics, regional impact, locations | `world_map` |
+| News articles, media coverage | `news_cards` |
+| Key metrics, statistics, KPIs | `stat_cards` |
+| Comparing products, options, candidates | `comparison_table` |
+| Expert opinions, notable quotes | `quote_block` |
+| Summarized takeaways, bullet points | `key_points` |
+
+**Rules:**
+- Use 2-4 visualization types per report (don't overload)
+- Always include the research timeline (steps)
+- Pick visualizations that ADD VALUE, not just fill space
+- If unsure, `stat_cards` + `news_cards` is a safe default combo
+
+### Visualization Data Schemas
+
+- **line_chart**: Time-series data, trends, probability changes
   ```json
   { "title": "Chart Title", "y_format": "percent", "y_min": 0, "y_max": 100,
     "x_labels": ["Label1", "Label2"],
     "series": [{ "name": "Series Name", "values": [10, 20, 30] }] }
   ```
 
-- **market_cards**: For prediction markets, pricing, comparisons
+- **bar_chart**: Categorical comparisons, rankings
+  ```json
+  { "title": "Chart Title", "y_format": "number",
+    "bars": [{ "label": "Category A", "value": 85, "color": "#00d2a0" },
+             { "label": "Category B", "value": 62, "color": "#6c5ce7" }] }
+  ```
+
+- **market_cards**: Prediction markets, pricing, comparisons
   ```json
   [{ "name": "Market Name", "yes_price": 85, "no_price": 15, "volume": "128M", "change_7d": 3.2 }]
   ```
 
-- **world_map**: For geopolitical analysis, regional impacts
+- **world_map**: Geopolitical analysis, regional impacts
   ```json
   { "regions": [{ "id": "united_states|europe|east_asia|...", "name": "Display Name", "info": "Impact description" }] }
   ```
   Valid region IDs: north_america, united_states, canada, mexico, south_america, europe, africa, russia, middle_east, east_asia, china, southeast_asia, australia
 
-- **news_cards**: For related news, source citations
+- **news_cards**: Related news, source citations
   ```json
   [{ "title": "Headline", "source": "Publisher", "date": "Mar 28, 2026", "sentiment": "positive|negative|neutral|warning", "tag": "Category", "url": "https://..." }]
+  ```
+
+- **stat_cards**: Key metrics and statistics (use for any numerical highlights)
+  ```json
+  [{ "label": "Total Volume", "value": "$4.2B", "change": "+12.5%", "trend": "up|down|neutral", "icon": "💰" }]
+  ```
+
+- **comparison_table**: Side-by-side comparisons
+  ```json
+  { "headers": ["Feature", "Option A", "Option B"],
+    "rows": [["Price", "$10/mo", "$25/mo"], ["Users", "5", "Unlimited"]],
+    "highlight_col": 1 }
+  ```
+
+- **quote_block**: Notable quotes from sources
+  ```json
+  [{ "text": "The quote text here", "author": "Person Name", "role": "Title / Organization", "url": "https://..." }]
+  ```
+
+- **key_points**: Bullet-point takeaways with icons
+  ```json
+  [{ "icon": "✅", "title": "Point Title", "text": "Explanation of the point" }]
   ```
 
 ### Step 3: Generate and Upload

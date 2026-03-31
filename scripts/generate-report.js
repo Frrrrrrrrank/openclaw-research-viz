@@ -285,13 +285,91 @@ function renderNewsCards(news) {
   </div>`;
 }
 
+// --- Render bar chart SVG ---
+function renderBarChart(chartData) {
+  if (!chartData || !chartData.bars || !chartData.bars.length) return '';
+  const bars = chartData.bars;
+  const maxVal = Math.max(...bars.map(b => b.value));
+  const defaultColors = ['#00d2a0','#6c5ce7','#ff9f43','#4da6ff','#ff6b6b','#ffd93d'];
+
+  const barsHtml = bars.map((b, i) => {
+    const pct = maxVal > 0 ? (b.value / maxVal) * 100 : 0;
+    const color = b.color || defaultColors[i % defaultColors.length];
+    return `<div class="bar-row">
+      <div class="bar-label">${esc(b.label)}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${color}">${esc(String(b.value))}</div></div>
+    </div>`;
+  }).join('\n');
+
+  return `<div class="chart-container">
+    <div class="chart-title">${esc(chartData.title || 'Comparison')}</div>
+    <div class="bar-chart">${barsHtml}</div>
+  </div>`;
+}
+
+// --- Render stat cards ---
+function renderStatCards(stats) {
+  if (!stats || !stats.length) return '';
+  return `<div class="stat-grid">
+    ${stats.map(s => {
+      const trendClass = (s.trend || '').toLowerCase() === 'up' ? 'up' : (s.trend || '').toLowerCase() === 'down' ? 'down' : 'neutral';
+      return `<div class="stat-card">
+        <div class="stat-icon">${esc(s.icon || '📊')}</div>
+        <div class="stat-value">${esc(s.value)}</div>
+        <div class="stat-label">${esc(s.label)}</div>
+        ${s.change ? `<div class="stat-change ${trendClass}">${esc(s.change)}</div>` : ''}
+      </div>`;
+    }).join('\n')}
+  </div>`;
+}
+
+// --- Render comparison table ---
+function renderComparisonTable(tableData) {
+  if (!tableData || !tableData.headers || !tableData.rows) return '';
+  const hl = tableData.highlight_col;
+  const headHtml = tableData.headers.map((h, i) =>
+    `<th${i === hl ? ' class="highlight"' : ''}>${esc(h)}</th>`
+  ).join('');
+  const rowsHtml = tableData.rows.map(row =>
+    `<tr>${row.map((c, i) => `<td${i === hl ? ' class="highlight"' : ''}>${esc(c)}</td>`).join('')}</tr>`
+  ).join('\n');
+  return `<div class="table-wrap"><table class="comp-table"><thead><tr>${headHtml}</tr></thead><tbody>${rowsHtml}</tbody></table></div>`;
+}
+
+// --- Render quote blocks ---
+function renderQuoteBlock(quotes) {
+  if (!quotes || !quotes.length) return '';
+  return `<div class="quotes-list">
+    ${quotes.map(q => `<blockquote class="quote-card">
+      <div class="quote-text">"${esc(q.text)}"</div>
+      <div class="quote-author">— ${esc(q.author)}${q.role ? `, <span class="quote-role">${esc(q.role)}</span>` : ''}</div>
+    </blockquote>`).join('\n')}
+  </div>`;
+}
+
+// --- Render key points ---
+function renderKeyPoints(points) {
+  if (!points || !points.length) return '';
+  return `<div class="key-points">
+    ${points.map(p => `<div class="kp-item">
+      <span class="kp-icon">${esc(p.icon || '•')}</span>
+      <div><div class="kp-title">${esc(p.title)}</div><div class="kp-text">${esc(p.text)}</div></div>
+    </div>`).join('\n')}
+  </div>`;
+}
+
 // --- Render visualizations by type ---
 function renderVisualization(viz) {
   switch (viz.type) {
     case 'line_chart': return renderLineChart(viz.data);
+    case 'bar_chart': return renderBarChart(viz.data);
     case 'market_cards': return renderMarketCards(viz.data);
     case 'world_map': return renderWorldMap(viz.data);
     case 'news_cards': return renderNewsCards(viz.data);
+    case 'stat_cards': return renderStatCards(viz.data);
+    case 'comparison_table': return renderComparisonTable(viz.data);
+    case 'quote_block': return renderQuoteBlock(viz.data);
+    case 'key_points': return renderKeyPoints(viz.data);
     default: return `<!-- Unknown visualization type: ${esc(viz.type)} -->`;
   }
 }
@@ -427,6 +505,42 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sa
 .news-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; line-height: 1.4; }
 .news-meta { font-size: 12px; color: var(--text-muted); display: flex; gap: 12px; }
 .news-tag { display: inline-block; background: rgba(108,92,231,0.12); color: var(--accent); font-size: 11px; padding: 2px 8px; border-radius: 8px; margin-top: 6px; }
+
+.bar-chart { display: flex; flex-direction: column; gap: 10px; }
+.bar-row { display: flex; align-items: center; gap: 12px; }
+.bar-label { width: 120px; font-size: 13px; text-align: right; color: var(--text-dim); flex-shrink: 0; }
+.bar-track { flex: 1; height: 28px; background: rgba(255,255,255,0.04); border-radius: 6px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 6px; display: flex; align-items: center; justify-content: flex-end; padding-right: 10px; font-size: 12px; font-weight: 600; color: #fff; min-width: 40px; transition: width 1s ease; }
+
+.stat-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(160px,1fr)); gap: 12px; }
+.stat-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 16px; text-align: center; transition: all 0.3s; }
+.stat-card:hover { border-color: rgba(108,92,231,0.3); transform: translateY(-2px); }
+.stat-icon { font-size: 24px; margin-bottom: 8px; }
+.stat-value { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
+.stat-label { font-size: 12px; color: var(--text-muted); margin-bottom: 6px; }
+.stat-change { font-size: 13px; font-weight: 600; padding: 2px 8px; border-radius: 10px; display: inline-block; }
+.stat-change.up { background: var(--green-dim); color: var(--green); }
+.stat-change.down { background: var(--red-dim); color: var(--red); }
+.stat-change.neutral { background: rgba(255,255,255,0.06); color: var(--text-dim); }
+
+.table-wrap { overflow-x: auto; }
+.comp-table { width: 100%; border-collapse: collapse; background: var(--bg-card); border-radius: var(--radius); overflow: hidden; }
+.comp-table th,.comp-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--border); font-size: 13px; }
+.comp-table th { background: rgba(108,92,231,0.08); color: var(--accent); font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+.comp-table td.highlight,.comp-table th.highlight { background: rgba(0,210,160,0.08); }
+.comp-table tr:last-child td { border-bottom: none; }
+
+.quotes-list { display: flex; flex-direction: column; gap: 14px; }
+.quote-card { background: var(--bg-card); border-left: 3px solid var(--accent); border-radius: 0 var(--radius) var(--radius) 0; padding: 18px 20px; margin: 0; }
+.quote-text { font-size: 15px; font-style: italic; line-height: 1.6; margin-bottom: 10px; color: var(--text); }
+.quote-author { font-size: 13px; color: var(--text-dim); }
+.quote-role { color: var(--text-muted); }
+
+.key-points { display: flex; flex-direction: column; gap: 12px; }
+.kp-item { display: flex; gap: 14px; align-items: flex-start; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px 16px; }
+.kp-icon { font-size: 20px; flex-shrink: 0; margin-top: 2px; }
+.kp-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.kp-text { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
 
 .footer { text-align: center; padding: 32px 0 16px; font-size: 12px; color: var(--text-muted); }
 .footer a { color: var(--accent); text-decoration: none; }
