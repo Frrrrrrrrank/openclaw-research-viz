@@ -77,29 +77,21 @@ function generateViewerHTML(ciphertextB64, ivB64, authTagB64, title) {
 <meta name="robots" content="noindex, nofollow">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:#0a0a0f;color:#e0e0e8;min-height:100vh}
-#_v{display:flex;align-items:center;justify-content:center;min-height:100vh}
-.loader{text-align:center;padding:40px}
-.loader h2{font-size:18px;margin-bottom:12px}
-.loader p{color:#8888a0;font-size:14px;margin-top:8px}
-.spinner{width:36px;height:36px;border:3px solid #1e1e2e;border-top-color:#6c5ce7;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:#0a0a0f;color:#e0e0e8;min-height:100vh;margin:0}
+#_v{position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(108,92,231,0.15);backdrop-filter:blur(8px);padding:10px 16px;display:flex;align-items:center;justify-content:center;gap:10px;font-size:13px;color:#a0a0c0}
+#_v .sp{width:14px;height:14px;border:2px solid #333;border-top-color:#6c5ce7;border-radius:50%;animation:spin .6s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.error{color:#ff6b6b}
+.err-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh}
+.error{color:#ff6b6b;text-align:center;padding:40px}
 .lock-icon{font-size:48px;margin-bottom:16px}
 </style>
 </head>
 <body>
-<div id="_v">
-<div class="loader" id="status">
-<div class="spinner"></div>
-<h2>Decrypting Report...</h2>
-<p>Your data never leaves your browser</p>
-</div>
-</div>
+<div id="_v"><div class="sp"></div>Decrypting...</div>
 <script>
 (async function(){
-var s=document.getElementById('status');
-function err(m){s.innerHTML='<div class="lock-icon">\\u{1F512}</div><h2 class="error">'+m+'</h2><p>The decryption key is missing or invalid.<br>Make sure you use the complete URL including the #key=... part.</p>'}
+var s=document.getElementById('_v');
+function err(m){s.outerHTML='<div class="err-wrap"><div class="error"><div class="lock-icon">\\u{1F512}</div><h2>'+m+'</h2><p style="color:#8888a0;margin-top:8px;font-size:14px">The decryption key is missing or invalid.<br>Make sure you use the complete URL including the #key=... part.</p></div></div>'}
 var h=location.hash.slice(1),p=new URLSearchParams(h),k=p.get('key');
 if(!k){err('No decryption key found');return}
 try{
