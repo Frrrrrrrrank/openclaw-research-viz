@@ -549,12 +549,80 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sa
 .fade-in { opacity: 0; transform: translateY(16px); transition: opacity 0.5s ease, transform 0.5s ease; }
 .fade-in.visible { opacity: 1; transform: translateY(0); }
 
-@media (max-width:600px) {
-  .container { padding: 12px 12px 40px; }
-  .header { padding: 24px 0 20px; }
-  .conclusion-card { padding: 18px; }
-  .conclusion-text { font-size: 16px; }
-  .market-grid { grid-template-columns: 1fr; }
+@media (max-width:768px) {
+  .container { padding: 16px 14px 48px; }
+  .header { padding: 28px 0 20px; }
+  .header h1 { font-size: 22px; }
+  .header .meta { flex-wrap: wrap; gap: 10px; justify-content: center; }
+  .conclusion-card { padding: 16px; }
+  .conclusion-text { font-size: 15px; }
+  .confidence-bar { flex-wrap: wrap; gap: 8px; }
+  .confidence-bar .label { width: 100%; }
+
+  /* Timeline */
+  .timeline::before { left: 14px; }
+  .step { padding-left: 40px; padding-bottom: 18px; }
+  .step-dot { left: 6px; width: 16px; height: 16px; }
+  .step-dot .inner { width: 6px; height: 6px; }
+  .step-card { padding: 12px; }
+  .step-header { flex-direction: column; align-items: flex-start; gap: 4px; }
+  .step-summary { font-size: 13px; }
+
+  /* Charts */
+  .chart-container { padding: 14px; }
+  .chart-header { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .chart-legend { font-size: 11px; }
+
+  /* Cards */
+  .market-grid { grid-template-columns: 1fr; gap: 10px; }
+  .market-card { padding: 14px; }
+  .market-name { font-size: 13px; }
+  .odds-tag { font-size: 18px; }
+
+  .stat-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .stat-card { padding: 14px 12px; }
+  .stat-value { font-size: 20px; }
+  .stat-icon { font-size: 20px; margin-bottom: 6px; }
+
+  /* News */
+  .news-item { padding: 12px; gap: 10px; }
+  .news-sentiment { width: 32px; height: 32px; font-size: 16px; }
+  .news-title { font-size: 13px; }
+
+  /* Map */
+  .map-container { padding: 14px; }
+  .map-legend { gap: 10px; }
+
+  /* Bar chart */
+  .bar-row { flex-direction: column; align-items: stretch; gap: 4px; }
+  .bar-label { width: auto; text-align: left; font-size: 12px; }
+  .bar-fill { font-size: 11px; }
+
+  /* Table */
+  .comp-table th, .comp-table td { padding: 8px 10px; font-size: 12px; }
+
+  /* Quotes */
+  .quote-card { padding: 14px 16px; }
+  .quote-text { font-size: 14px; }
+
+  /* Key points */
+  .kp-item { padding: 12px; gap: 10px; }
+  .kp-icon { font-size: 18px; }
+  .kp-title { font-size: 13px; }
+  .kp-text { font-size: 12px; }
+
+  .section-title { font-size: 12px; }
+  .footer { font-size: 11px; }
+}
+
+@media (max-width:380px) {
+  .container { padding: 10px 10px 40px; }
+  .header h1 { font-size: 19px; }
+  .stat-grid { grid-template-columns: 1fr; }
+  .header .meta { font-size: 11px; }
+  .step { padding-left: 34px; }
+  .timeline::before { left: 10px; }
+  .step-dot { left: 2px; }
 }
 </style>
 </head>
