@@ -550,79 +550,122 @@ body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sa
 .fade-in.visible { opacity: 1; transform: translateY(0); }
 
 @media (max-width:768px) {
-  .container { padding: 16px 14px 48px; }
-  .header { padding: 28px 0 20px; }
-  .header h1 { font-size: 22px; }
-  .header .meta { flex-wrap: wrap; gap: 10px; justify-content: center; }
-  .conclusion-card { padding: 16px; }
-  .conclusion-text { font-size: 15px; }
-  .confidence-bar { flex-wrap: wrap; gap: 8px; }
-  .confidence-bar .label { width: 100%; }
+  .container { padding: 14px 12px 40px; }
+  .header { padding: 20px 0 16px; }
+  .header h1 { font-size: 20px; line-height: 1.4; }
+  .header .subtitle { font-size: 13px; }
+  .header .meta { flex-wrap: wrap; gap: 8px; justify-content: center; font-size: 11px; }
+  .header-badge { font-size: 11px; padding: 3px 10px; }
 
-  /* Timeline */
-  .timeline::before { left: 14px; }
-  .step { padding-left: 40px; padding-bottom: 18px; }
-  .step-dot { left: 6px; width: 16px; height: 16px; }
+  .conclusion-card { padding: 14px; margin-bottom: 24px; }
+  .conclusion-label { font-size: 10px; margin-bottom: 8px; }
+  .conclusion-text { font-size: 14px; line-height: 1.7; margin-bottom: 12px; }
+  .confidence-bar { flex-wrap: wrap; gap: 6px; }
+  .confidence-bar .label { width: 100%; font-size: 11px; }
+  .confidence-val { font-size: 13px; }
+
+  .section { margin-bottom: 24px; }
+  .section-title { font-size: 11px; letter-spacing: 1px; margin-bottom: 12px; }
+
+  /* Timeline - more compact */
+  .timeline::before { left: 12px; }
+  .step { padding-left: 36px; padding-bottom: 16px; }
+  .step-dot { left: 4px; width: 16px; height: 16px; }
   .step-dot .inner { width: 6px; height: 6px; }
-  .step-card { padding: 12px; }
-  .step-header { flex-direction: column; align-items: flex-start; gap: 4px; }
-  .step-summary { font-size: 13px; }
+  .step-card { padding: 10px 12px; }
+  .step-header { flex-direction: column; align-items: flex-start; gap: 4px; margin-bottom: 6px; }
+  .step-tool { font-size: 10px; padding: 2px 8px; }
+  .step-time { font-size: 10px; }
+  .step-query { font-size: 12px; margin-bottom: 4px; }
+  .step-summary { font-size: 12px; line-height: 1.6; }
+  .source-item { font-size: 12px; padding: 4px 0; }
 
   /* Charts */
-  .chart-container { padding: 14px; }
-  .chart-header { flex-direction: column; align-items: flex-start; gap: 6px; }
-  .chart-legend { font-size: 11px; }
+  .chart-container { padding: 12px; }
+  .chart-header { flex-direction: column; align-items: flex-start; gap: 6px; margin-bottom: 12px; }
+  .chart-title { font-size: 14px; }
+  .chart-legend { font-size: 11px; gap: 10px; }
 
-  /* Cards */
-  .market-grid { grid-template-columns: 1fr; gap: 10px; }
-  .market-card { padding: 14px; }
-  .market-name { font-size: 13px; }
-  .odds-tag { font-size: 18px; }
+  /* Market cards */
+  .market-grid { grid-template-columns: 1fr; gap: 8px; }
+  .market-card { padding: 12px; }
+  .market-name { font-size: 13px; margin-bottom: 6px; }
+  .odds-tag { font-size: 16px; }
+  .market-volume { font-size: 11px; }
 
-  .stat-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
-  .stat-card { padding: 14px 12px; }
-  .stat-value { font-size: 20px; }
-  .stat-icon { font-size: 20px; margin-bottom: 6px; }
+  /* Stat cards */
+  .stat-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .stat-card { padding: 12px 10px; }
+  .stat-icon { font-size: 18px; margin-bottom: 4px; }
+  .stat-value { font-size: 16px; margin-bottom: 2px; }
+  .stat-label { font-size: 10px; margin-bottom: 4px; }
+  .stat-change { font-size: 10px; padding: 1px 6px; }
 
   /* News */
-  .news-item { padding: 12px; gap: 10px; }
-  .news-sentiment { width: 32px; height: 32px; font-size: 16px; }
-  .news-title { font-size: 13px; }
+  .news-list { gap: 8px; }
+  .news-item { padding: 10px; gap: 8px; }
+  .news-sentiment { width: 28px; height: 28px; font-size: 14px; border-radius: 8px; }
+  .news-title { font-size: 12px; margin-bottom: 3px; }
+  .news-meta { font-size: 10px; gap: 8px; }
+  .news-tag { font-size: 10px; padding: 1px 6px; margin-top: 4px; }
 
   /* Map */
-  .map-container { padding: 14px; }
-  .map-legend { gap: 10px; }
+  .map-container { padding: 12px; }
+  .map-legend { gap: 8px; font-size: 11px; }
+  .map-legend-item { font-size: 11px; }
 
   /* Bar chart */
-  .bar-row { flex-direction: column; align-items: stretch; gap: 4px; }
-  .bar-label { width: auto; text-align: left; font-size: 12px; }
-  .bar-fill { font-size: 11px; }
+  .bar-row { flex-direction: column; align-items: stretch; gap: 3px; }
+  .bar-label { width: auto; text-align: left; font-size: 11px; }
+  .bar-track { height: 24px; }
+  .bar-fill { font-size: 10px; }
 
-  /* Table */
-  .comp-table th, .comp-table td { padding: 8px 10px; font-size: 12px; }
+  /* Table - scrollable with hint */
+  .table-wrap { margin: 0 -12px; padding: 0 12px; }
+  .comp-table { font-size: 12px; min-width: 380px; }
+  .comp-table th { padding: 8px 10px; font-size: 10px; }
+  .comp-table td { padding: 8px 10px; font-size: 11px; line-height: 1.5; }
 
   /* Quotes */
-  .quote-card { padding: 14px 16px; }
-  .quote-text { font-size: 14px; }
+  .quote-card { padding: 12px 14px; }
+  .quote-text { font-size: 13px; line-height: 1.6; margin-bottom: 8px; }
+  .quote-author { font-size: 12px; }
 
   /* Key points */
-  .kp-item { padding: 12px; gap: 10px; }
-  .kp-icon { font-size: 18px; }
-  .kp-title { font-size: 13px; }
-  .kp-text { font-size: 12px; }
+  .key-points { gap: 8px; }
+  .kp-item { padding: 10px 12px; gap: 10px; }
+  .kp-icon { font-size: 16px; }
+  .kp-title { font-size: 12px; margin-bottom: 2px; }
+  .kp-text { font-size: 11px; line-height: 1.5; }
 
-  .section-title { font-size: 12px; }
-  .footer { font-size: 11px; }
+  .footer { padding: 24px 0 12px; font-size: 10px; }
 }
 
-@media (max-width:380px) {
-  .container { padding: 10px 10px 40px; }
-  .header h1 { font-size: 19px; }
-  .stat-grid { grid-template-columns: 1fr; }
-  .header .meta { font-size: 11px; }
-  .step { padding-left: 34px; }
+@media (max-width:430px) {
+  .container { padding: 10px 10px 36px; }
+  .header h1 { font-size: 18px; }
+  .header .subtitle { font-size: 12px; }
+  .conclusion-text { font-size: 13px; }
+  .stat-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
+  .stat-value { font-size: 14px; }
+  .stat-label { font-size: 9px; }
+  .stat-change { font-size: 9px; }
+  .step { padding-left: 32px; }
   .timeline::before { left: 10px; }
-  .step-dot { left: 2px; }
+  .step-dot { left: 2px; width: 14px; height: 14px; }
+  .step-dot .inner { width: 5px; height: 5px; }
+  .step-summary { font-size: 11px; }
+  .news-title { font-size: 11px; }
+  .kp-text { font-size: 10px; }
+  .comp-table td { font-size: 10px; }
+}
+
+@media (max-width:360px) {
+  .header h1 { font-size: 16px; }
+  .header .meta { font-size: 10px; gap: 6px; }
+  .conclusion-text { font-size: 12px; }
+  .stat-grid { grid-template-columns: 1fr; gap: 6px; }
+  .step-card { padding: 8px 10px; }
 }
 </style>
 </head>
