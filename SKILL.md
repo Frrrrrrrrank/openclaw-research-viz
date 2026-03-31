@@ -7,7 +7,7 @@ description: >
   The report is uploaded to a2ui.me and returned as a clickable link card.
   Use when: research complete, analysis done, investigation finished, deep research,
   multi-step research, show my work, explain research process, visualize research.
-version: 1.0.0
+version: 1.3.0
 emoji: 📊
 user-invocable: true
 metadata:
