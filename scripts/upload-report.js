@@ -78,16 +78,13 @@ function generateViewerHTML(ciphertextB64, ivB64, authTagB64, title) {
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:#0a0a0f;color:#e0e0e8;min-height:100vh;margin:0}
-#_v{position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(108,92,231,0.15);backdrop-filter:blur(8px);padding:10px 16px;display:flex;align-items:center;justify-content:center;gap:10px;font-size:13px;color:#a0a0c0}
-#_v .sp{width:14px;height:14px;border:2px solid #333;border-top-color:#6c5ce7;border-radius:50%;animation:spin .6s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
 .err-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh}
 .error{color:#ff6b6b;text-align:center;padding:40px}
 .lock-icon{font-size:48px;margin-bottom:16px}
 </style>
 </head>
 <body>
-<div id="_v"><div class="sp"></div>Decrypting...</div>
+<div id="_v" style="display:none"></div>
 <script>
 (async function(){
 var s=document.getElementById('_v');
